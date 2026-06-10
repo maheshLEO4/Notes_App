@@ -14,5 +14,5 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/auth", auth_app)
-app.mount("/notes", notes_app)
+app.include_router(auth_app, prefix="/auth")
+app.include_router(notes_app, prefix="/notes")
