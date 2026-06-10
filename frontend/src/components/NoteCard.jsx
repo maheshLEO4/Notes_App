@@ -29,15 +29,6 @@ export default function NoteCard({ note, onView, onEdit, onDelete }) {
         </ReactMarkdown>
       </div>
 
-      {isLongContent && (
-        <button
-          onClick={() => onView(note)}
-          className="text-xs font-semibold text-ink-900 hover:text-black text-left transition-colors"
-        >
-          Read full note ▾
-        </button>
-      )}
-
       <div className="mt-auto flex gap-2 pt-2 opacity-0 group-hover:opacity-100 transition-opacity">
         <button
           onClick={() => onView(note)}
