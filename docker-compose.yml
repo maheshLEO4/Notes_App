@@ -1,0 +1,47 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: notesdb
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db/notesdb
+
+  frontend:
+    build: ./frontend
+    ports:
+      - '80:80'
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+
+    env_file:
+      - ./backend/.env
+
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+
+    ports:
+      - "5173:5173"
+
+    depends_on:
+      - backend
