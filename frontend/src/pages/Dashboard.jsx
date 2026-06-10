@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { getNotes, createNote, updateNote, deleteNote } from '../api'
 import NoteCard from '../components/NoteCard'
 import NoteModal from '../components/NoteModal'
+import ViewNoteModal from '../components/ViewNoteModal'
 
 const FILTERS = ['All', 'Pending', 'In Progress', 'Done']
 
@@ -16,6 +17,7 @@ export default function Dashboard() {
   const [filter, setFilter] = useState('All')
   const [search, setSearch] = useState('')
   const [modal, setModal] = useState(null) // null | 'create' | note object
+  const [viewingNote, setViewingNote] = useState(null) // null | note object
   const [deleting, setDeleting] = useState(null)
 
   const fetchNotes = useCallback(async () => {
@@ -161,6 +163,7 @@ export default function Dashboard() {
               >
                 <NoteCard
                   note={note}
+                  onView={n => setViewingNote(n)}
                   onEdit={n => setModal(n)}
                   onDelete={handleDelete}
                 />
@@ -170,7 +173,7 @@ export default function Dashboard() {
         )}
       </main>
 
-      {/* Modal */}
+      {/* Editor Modal */}
       {modal !== null && (
         <NoteModal
           note={modal === 'create' ? null : modal}
@@ -178,6 +181,16 @@ export default function Dashboard() {
           onSave={handleSave}
         />
       )}
+
+      {/* View Modal */}
+      <ViewNoteModal
+        note={viewingNote}
+        onClose={() => setViewingNote(null)}
+        onEdit={(n) => {
+          setViewingNote(null)
+          setModal(n)
+        }}
+      />
     </div>
   )
 }

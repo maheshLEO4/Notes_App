@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
@@ -8,11 +7,9 @@ const STATUS_STYLE = {
   'Done': 'bg-green-50 text-green-600 border-green-200',
 }
 
-export default function NoteCard({ note, onEdit, onDelete }) {
-  const [isExpanded, setIsExpanded] = useState(false)
-  
+export default function NoteCard({ note, onView, onEdit, onDelete }) {
   const isLongContent = note.content.length > 150
-  const displayContent = isExpanded ? note.content : (note.content.slice(0, 150) + (isLongContent ? '...' : ''))
+  const displayContent = note.content.slice(0, 150) + (isLongContent ? '...' : '')
 
   return (
     <div className="bg-white border border-ink-100 rounded-xl p-5 flex flex-col gap-3 hover:border-ink-300 hover:shadow-sm transition-all group">
@@ -26,7 +23,7 @@ export default function NoteCard({ note, onEdit, onDelete }) {
       </div>
 
       {/* Rendered markdown preview */}
-      <div className={`prose prose-sm prose-ink max-w-none text-ink-400 text-sm leading-relaxed [&>*]:my-0 [&>*+*]:mt-1 ${!isExpanded ? 'line-clamp-4' : ''}`}>
+      <div className="prose prose-sm prose-ink max-w-none text-ink-400 text-sm leading-relaxed [&>*]:my-0 [&>*+*]:mt-1 line-clamp-4">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>
           {displayContent}
         </ReactMarkdown>
@@ -34,14 +31,20 @@ export default function NoteCard({ note, onEdit, onDelete }) {
 
       {isLongContent && (
         <button
-          onClick={() => setIsExpanded(!isExpanded)}
+          onClick={() => onView(note)}
           className="text-xs font-medium text-blue-500 hover:text-blue-700 text-left transition-colors"
         >
-          {isExpanded ? 'Show less' : 'Show full note ▾'}
+          Read full note ▾
         </button>
       )}
 
       <div className="flex gap-2 pt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+        <button
+          onClick={() => onView(note)}
+          className="flex-1 py-1.5 text-xs text-ink-500 border border-ink-200 rounded-lg hover:bg-ink-50 hover:text-ink-900 transition-colors"
+        >
+          View
+        </button>
         <button
           onClick={() => onEdit(note)}
           className="flex-1 py-1.5 text-xs text-ink-500 border border-ink-200 rounded-lg hover:bg-ink-50 hover:text-ink-900 transition-colors"
