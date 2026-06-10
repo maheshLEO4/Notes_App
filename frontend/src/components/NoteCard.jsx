@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
@@ -8,8 +9,10 @@ const STATUS_STYLE = {
 }
 
 export default function NoteCard({ note, onEdit, onDelete }) {
-  // Trim content for preview (strip markdown syntax for cleaner snippet)
-  const preview = note.content.slice(0, 150) + (note.content.length > 150 ? '...' : '')
+  const [isExpanded, setIsExpanded] = useState(false)
+  
+  const isLongContent = note.content.length > 150
+  const displayContent = isExpanded ? note.content : (note.content.slice(0, 150) + (isLongContent ? '...' : ''))
 
   return (
     <div className="bg-white border border-ink-100 rounded-xl p-5 flex flex-col gap-3 hover:border-ink-300 hover:shadow-sm transition-all group">
@@ -23,11 +26,20 @@ export default function NoteCard({ note, onEdit, onDelete }) {
       </div>
 
       {/* Rendered markdown preview */}
-      <div className="prose prose-sm prose-ink max-w-none text-ink-400 line-clamp-4 text-sm leading-relaxed [&>*]:my-0 [&>*+*]:mt-1">
+      <div className={`prose prose-sm prose-ink max-w-none text-ink-400 text-sm leading-relaxed [&>*]:my-0 [&>*+*]:mt-1 ${!isExpanded ? 'line-clamp-4' : ''}`}>
         <ReactMarkdown remarkPlugins={[remarkGfm]}>
-          {preview}
+          {displayContent}
         </ReactMarkdown>
       </div>
+
+      {isLongContent && (
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="text-xs font-medium text-blue-500 hover:text-blue-700 text-left transition-colors"
+        >
+          {isExpanded ? 'Show less' : 'Show full note ▾'}
+        </button>
+      )}
 
       <div className="flex gap-2 pt-1 opacity-0 group-hover:opacity-100 transition-opacity">
         <button
