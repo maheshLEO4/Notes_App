@@ -24,7 +24,7 @@ export default function ViewNoteModal({ note, onClose, onEdit }) {
           <div className="flex flex-center gap-2">
             <button
               onClick={() => onEdit(note)}
-              className="text-xs font-medium text-blue-500 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition-colors"
+              className="text-xs font-medium text-white hover:bg-black bg-ink-900 px-3 py-1.5 rounded-lg transition-colors"
             >
               Edit
             </button>

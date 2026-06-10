@@ -12,7 +12,7 @@ export default function NoteCard({ note, onView, onEdit, onDelete }) {
   const displayContent = note.content.slice(0, 150) + (isLongContent ? '...' : '')
 
   return (
-    <div className="bg-white border border-ink-100 rounded-xl p-5 flex flex-col gap-3 hover:border-ink-300 hover:shadow-sm transition-all group">
+    <div className="bg-white border border-ink-100 rounded-xl p-5 flex flex-col h-full gap-3 hover:border-ink-300 hover:shadow-sm transition-all group">
       <div className="flex items-start justify-between gap-3">
         <h3 className="font-medium text-ink-900 text-sm leading-snug line-clamp-2 flex-1">
           {note.title}
@@ -32,28 +32,28 @@ export default function NoteCard({ note, onView, onEdit, onDelete }) {
       {isLongContent && (
         <button
           onClick={() => onView(note)}
-          className="text-xs font-medium text-blue-500 hover:text-blue-700 text-left transition-colors"
+          className="text-xs font-semibold text-ink-900 hover:text-black text-left transition-colors"
         >
           Read full note ▾
         </button>
       )}
 
-      <div className="flex gap-2 pt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+      <div className="mt-auto flex gap-2 pt-2 opacity-0 group-hover:opacity-100 transition-opacity">
         <button
           onClick={() => onView(note)}
-          className="flex-1 py-1.5 text-xs text-ink-500 border border-ink-200 rounded-lg hover:bg-ink-50 hover:text-ink-900 transition-colors"
+          className="flex-1 py-1.5 text-xs bg-ink-900 text-white rounded-lg hover:bg-black transition-colors"
         >
           View
         </button>
         <button
           onClick={() => onEdit(note)}
-          className="flex-1 py-1.5 text-xs text-ink-500 border border-ink-200 rounded-lg hover:bg-ink-50 hover:text-ink-900 transition-colors"
+          className="flex-1 py-1.5 text-xs bg-ink-900 text-white rounded-lg hover:bg-black transition-colors"
         >
           Edit
         </button>
         <button
           onClick={() => onDelete(note.id)}
-          className="flex-1 py-1.5 text-xs text-red-400 border border-red-100 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors"
+          className="flex-1 py-1.5 text-xs text-red-500 border border-red-200 rounded-lg hover:bg-red-50 transition-colors"
         >
           Delete
         </button>

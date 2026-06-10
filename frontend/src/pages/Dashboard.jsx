@@ -159,7 +159,7 @@ export default function Dashboard() {
             {filtered.map(note => (
               <div
                 key={note.id}
-                className={deleting === note.id ? 'opacity-40 pointer-events-none transition-opacity' : ''}
+                className={`h-full ${deleting === note.id ? 'opacity-40 pointer-events-none transition-opacity' : ''}`}
               >
                 <NoteCard
                   note={note}
