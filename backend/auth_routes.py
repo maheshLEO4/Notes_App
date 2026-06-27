@@ -67,7 +67,8 @@ def login(
         user.password,
         db_user.password
     ):
-        return {"detail": "Invalid credentials"}
+        from fastapi import HTTPException
+        raise HTTPException(status_code=401, detail="Invalid credentials")
 
     token = create_access_token(
         {"user_id": db_user.id}

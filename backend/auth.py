@@ -43,7 +43,7 @@ def create_access_token(data: dict):
     to_encode = data.copy()
 
     expire = datetime.utcnow() + timedelta(
-        minutes=30
+        days=30
     )
 
     to_encode.update(
@@ -90,8 +90,13 @@ def get_current_user(
     if user_id is None:
         return None
 
-    return db.query(
+    user = db.query(
         models.Users
     ).filter(
         models.Users.id == user_id
     ).first()
+
+    if user is None:
+        raise HTTPException(status_code=401, detail="User not found")
+        
+    return user

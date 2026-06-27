@@ -12,9 +12,17 @@ function authHeaders() {
 }
 
 async function handleResponse(res) {
-  const data = await res.json()
-  if (!res.ok) throw new Error(data.detail || 'Request failed')
-  return data
+  if (!res.ok) {
+    let message = 'Request failed'
+    try {
+      const data = await res.json()
+      message = data.detail || message
+    } catch {}
+    const error = new Error(message)
+    error.status = res.status
+    throw error
+  }
+  return res.json()
 }
 
 // Auth
